@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- EDIT HERE: Basic SEO Information -->
+    <title>[YOUR NAME] — WordPress & Automation Developer</title>
+    <meta name="description" content="Portfolio of [YOUR NAME], a web developer specializing in WordPress websites, n8n automation, HTML, and CSS.">
+    <meta name="keywords" content="WordPress, n8n, automation, web developer, HTML, CSS, freelancer">
+    <meta name="author" content="[YOUR NAME]">
+
+    <!-- Open Graph metadata -->
+    <meta property="og:title" content="[YOUR NAME] — WordPress & Automation Developer">
+    <meta property="og:description" content="I help small businesses build professional WordPress websites and automate repetitive tasks with n8n.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourusername.github.io/portfolio">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (for layout utilities) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS (Vibe-Coded Design System) -->
+    <style>
+        /* CSS Variables - Light Theme (Default) */
+        :root {
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --foreground: #0f172a;
+            --muted: #64748b;
+            --border: rgba(15, 23, 42, 0.12);
+            --accent: #7c3aed;
+            --accent-secondary: #06b6d4;
+            --glow: rgba(124, 58, 237, 0.35);
+        }
+
+        /* CSS Variables - Dark Theme */
+        [data-theme="dark"] {
+            --background: #050505;
+            --surface: #0d0d12;
+            --foreground: #f8fafc;
+            --muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.10);
+            --accent: #a855f7;
+            --accent-secondary: #22d3ee;
+            --glow: rgba(168, 85, 247, 0.35);
+        }
+
+        /* Base Resets & Typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        /* Vibe-Coded Background Grid */
+        .vibe-grid {
+            position: relative;
+            z-index: 1;
+        }
+        .vibe-grid::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Glowing Blobs */
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow), transparent 70%);
+            filter: blur(60px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+            transition: background 0.5s ease;
+        }
+        .glow-blob.hero-1 { top: -10%; left: -10%; width: 500px; height: 500px; }
+        .glow-blob.hero-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(6, 182, 212, 0.2), transparent 70%); }
+
+        /* Floating Glass Navigation */
+        .glass-nav {
+            background: color-mix(in srgb, var(--surface) 75%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* Project Cards Images */
+        .project-image img {
+            transition: transform 0.5s ease;
+        }
+        .glass-card:hover .project-image img {
+            transform: scale(1.03);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: #ffffff !important;
+            border: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--glow);
+            filter: brightness(1.1);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease;
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+            color: var(--foreground);
+        }
+
+        /* Status Dot */
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        /* Tech Badges */
+        .tech-badge {
+            background: color-mix(in srgb, var(--muted) 15%, transparent);
+            border: 1px solid var(--border);
+            color: var(--foreground);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .tech-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Scroll Reveal Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cursor Glow (Desktop Only) */
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--glow), transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            will-change: transform;
+        }
+        [data-theme="light"] .cursor-glow {
+            mix-blend-mode: multiply;
+            opacity: 0.15;
+        }
+
+        /* Active Nav Link */
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        /* Accessibility: Focus */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+            .scroll-reveal { opacity: 1; transform: none; }
+            .cursor-glow { display: none !important; }
+        }
+
+        /* Gradient Text Utility */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen selection:bg-purple-500/30 selection:text-current">
+
+    <!-- Cursor Glow Element -->
+    <div id="cursor-glow" class="cursor-glow hidden md:block"></div>
+
+    <!-- Navigation -->
+    <header class="glass-nav fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity">
+                <!-- EDIT HERE: Your Name -->
+                [YOUR NAME]
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="#about" class="nav-link text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">About</a>
+                <a href="#skills" class="nav-link text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Skills</a>
+                <a href="#work" class="nav-link text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Work</a>
+                <a href="#contact" class="nav-link text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">Contact</a>
+                
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-[var(--border)] transition-colors" aria-label="Toggle Theme">
+                    <!-- Sun Icon (Hidden in Light Mode) -->
+                    <svg id="theme-icon-sun" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <!-- Moon Icon (Hidden in Dark Mode) -->
+                    <svg id="theme-icon-moon" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden flex items-center gap-4">
+                <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-[var(--border)] transition-colors" aria-label="Toggle Theme">
+                     <svg class="w-5 h-5 theme-icon-sun-mobile hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                     <svg class="w-5 h-5 theme-icon-moon-mobile hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+                <button id="mobile-menu-btn" class="p-2 text-[var(--foreground)]" aria-label="Toggle menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--border)] bg-[var(--surface)] absolute w-full shadow-2xl">
+            <nav class="flex flex-col px-6 py-4 gap-4 text-base font-semibold">
+                <a href="#about" class="mobile-link text-[var(--muted)] hover:text-[var(--foreground)]">About</a>
+                <a href="#skills" class="mobile-link text-[var(--muted)] hover:text-[var(--foreground)]">Skills</a>
+                <a href="#work" class="mobile-link text-[var(--muted)] hover:text-[var(--foreground)]">Work</a>
+                <a href="#contact" class="mobile-link text-[var(--muted)] hover:text-[var(--foreground)]">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 1. Hero Section -->
+        <section id="hero" class="vibe-grid min-h-[90vh] flex items-center pt-24 pb-16 px-6 relative overflow-hidden">
+            <div class="glow-blob hero-1"></div>
+            <div class="glow-blob hero-2"></div>
+            
+            <div class="max-w-5xl mx-auto w-full z-10 scroll-reveal">
+                <!-- Freelance Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--surface)] mb-8 shadow-sm">
+                    <span class="status-dot"></span>
+                    <span class="text-sm font-medium text-[var(--foreground)]">Available for freelance projects</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+                    WordPress Websites & <br class="hidden md:block" />
+                    <span class="text-gradient">Simple Business Automation</span>
+                </h1>
+                
+                <!-- Supporting Text -->
+                <p class="text-xl md:text-2xl text-[var(--muted)] mb-10 max-w-3xl leading-relaxed font-medium">
+                    I help small businesses build professional WordPress websites and automate repetitive tasks with n8n.
+                </p>
+                
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 mb-12">
+                    <a href="#contact" class="btn-primary w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-lg text-center">
+                        Start a Project
+                    </a>
+                    <a href="#work" class="btn-secondary w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-lg text-center">
+                        View My Work
+                    </a>
+                </div>
+
+                <!-- Tech Badges -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="tech-badge">WordPress</span>
+                    <span class="tech-badge">n8n</span>
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Section -->
+        <section id="about" class="py-20 md:py-32 px-6 border-t border-[var(--border)] relative z-10">
+            <div class="max-w-3xl mx-auto scroll-reveal text-center md:text-left">
+                <h2 class="text-3xl font-bold mb-6 text-[var(--foreground)]">About Me</h2>
+                <p class="text-lg md:text-xl text-[var(--muted)] leading-relaxed font-medium">
+                    I'm a web developer focused on WordPress websites, website customization, and business automation. I also work with HTML and CSS to create and modify responsive web pages. My goal is to deliver straightforward, reliable digital solutions that help businesses run smoother online.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Skills Section -->
+        <section id="skills" class="py-20 md:py-32 px-6 max-w-7xl mx-auto relative z-10">
+            <h2 class="text-3xl font-bold mb-12 scroll-reveal text-[var(--foreground)]">Skills</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Skill 1 -->
+                <div class="glass-card p-8 scroll-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-[var(--border)] flex items-center justify-center mb-6 text-[var(--accent)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[var(--foreground)]">WordPress</h3>
+                    <ul class="space-y-3 text-[var(--muted)] font-medium">
+                        <li>Website setup & config</li>
+                        <li>Theme customization</li>
+                        <li>Page building</li>
+                        <li>Responsive design</li>
+                        <li>Basic maintenance</li>
+                    </ul>
+                </div>
+
+                <!-- Skill 2 -->
+                <div class="glass-card p-8 scroll-reveal" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-lg bg-[var(--border)] flex items-center justify-center mb-6 text-[var(--accent-secondary)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[var(--foreground)]">n8n Automation</h3>
+                    <ul class="space-y-3 text-[var(--muted)] font-medium">
+                        <li>Basic workflow automation</li>
+                        <li>API integrations</li>
+                        <li>Webhooks setup</li>
+                        <li>Form automation</li>
+                        <li>Google Sheets & AI workflows</li>
+                    </ul>
+                </div>
+
+                <!-- Skill 3 -->
+                <div class="glass-card p-8 scroll-reveal" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 rounded-lg bg-[var(--border)] flex items-center justify-center mb-6 text-[var(--accent)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-[var(--foreground)]">HTML & CSS</h3>
+                    <ul class="space-y-3 text-[var(--muted)] font-medium">
+                        <li>Responsive layouts</li>
+                        <li>Landing page creation</li>
+                        <li>Website customization</li>
+                        <li>Basic frontend development</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Selected Work Section -->
+        <section id="work" class="py-20 md:py-32 px-6 border-y border-[var(--border)] bg-black/5 dark:bg-white/5 relative z-10">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 scroll-reveal text-[var(--foreground)]">Selected Work</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Project 1 -->
+                    <div class="glass-card flex flex-col overflow-hidden scroll-reveal">
+                        <!-- EDIT HERE: Project 1 Image (e.g. assets/images/wordpress-project.jpg) -->
+                        <div class="aspect-video bg-[var(--border)] overflow-hidden project-image border-b border-[var(--border)]">
+                            <img src="https://placehold.co/800x450/1e293b/94a3b8?text=WordPress+Project" alt="WordPress Business Website" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-[var(--foreground)]">WordPress Business Website</h3>
+                            <p class="text-[var(--muted)] mb-6 flex-grow font-medium">Responsive business website built with WordPress with customized sections, navigation, and mobile-friendly layouts.</p>
+                            <div class="flex items-center gap-2 mb-8 flex-wrap">
+                                <span class="tech-badge">WordPress</span>
+                                <span class="tech-badge">CSS</span>
+                            </div>
+                            <a href="#" class="inline-flex font-bold text-[var(--accent)] hover:text-[var(--accent-secondary)] transition-colors mt-auto group">
+                                View Project <span class="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="glass-card flex flex-col overflow-hidden scroll-reveal" style="transition-delay: 100ms;">
+                        <!-- EDIT HERE: Project 2 Image -->
+                        <div class="aspect-video bg-[var(--border)] overflow-hidden project-image border-b border-[var(--border)]">
+                            <img src="https://placehold.co/800x450/1e293b/94a3b8?text=n8n+Automation" alt="n8n Lead Automation Workflow" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-[var(--foreground)]">n8n Lead Automation</h3>
+                            <p class="text-[var(--muted)] mb-6 flex-grow font-medium">Automated workflow that receives customer inquiries and processes lead information using n8n and connected services.</p>
+                            <div class="flex items-center gap-2 mb-8 flex-wrap">
+                                <span class="tech-badge">n8n</span>
+                                <span class="tech-badge">Webhooks</span>
+                                <span class="tech-badge">Google Sheets</span>
+                            </div>
+                            <a href="#" class="inline-flex font-bold text-[var(--accent)] hover:text-[var(--accent-secondary)] transition-colors mt-auto group">
+                                View Workflow <span class="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="glass-card flex flex-col overflow-hidden scroll-reveal">
+                        <!-- EDIT HERE: Project 3 Image -->
+                        <div class="aspect-video bg-[var(--border)] overflow-hidden project-image border-b border-[var(--border)]">
+                            <img src="https://placehold.co/800x450/1e293b/94a3b8?text=Landing+Page" alt="Business Landing Page" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-[var(--foreground)]">Business Landing Page</h3>
+                            <p class="text-[var(--muted)] mb-6 flex-grow font-medium">Simple responsive landing page designed for a local business to present its services and contact information.</p>
+                            <div class="flex items-center gap-2 mb-8 flex-wrap">
+                                <span class="tech-badge">HTML</span>
+                                <span class="tech-badge">CSS</span>
+                                <span class="tech-badge">JavaScript</span>
+                            </div>
+                            <a href="#" class="inline-flex font-bold text-[var(--accent)] hover:text-[var(--accent-secondary)] transition-colors mt-auto group">
+                                View Project <span class="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="glass-card flex flex-col overflow-hidden scroll-reveal" style="transition-delay: 100ms;">
+                        <!-- EDIT HERE: Project 4 Image -->
+                        <div class="aspect-video bg-[var(--border)] overflow-hidden project-image border-b border-[var(--border)]">
+                            <img src="https://placehold.co/800x450/1e293b/94a3b8?text=WP+Customization" alt="WordPress Customization" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-3 text-[var(--foreground)]">WordPress Customization</h3>
+                            <p class="text-[var(--muted)] mb-6 flex-grow font-medium">WordPress website customization focused on layout, responsive design, styling, and content presentation.</p>
+                            <div class="flex items-center gap-2 mb-8 flex-wrap">
+                                <span class="tech-badge">WordPress</span>
+                                <span class="tech-badge">CSS</span>
+                            </div>
+                            <a href="#" class="inline-flex font-bold text-[var(--accent)] hover:text-[var(--accent-secondary)] transition-colors mt-auto group">
+                                View Project <span class="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. What I Can Do & Process -->
+        <section class="py-20 md:py-32 px-6 max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Services -->
+                <div class="scroll-reveal">
+                    <h2 class="text-3xl font-bold mb-10 text-[var(--foreground)]">What I Can Do</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[var(--foreground)]">WordPress Websites</h3>
+                            <p class="text-[var(--muted)] font-medium">Build and customize responsive WordPress websites.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[var(--foreground)]">Landing Pages</h3>
+                            <p class="text-[var(--muted)] font-medium">Create clean, mobile-friendly landing pages for businesses.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[var(--foreground)]">n8n Automation</h3>
+                            <p class="text-[var(--muted)] font-medium">Build simple workflows that automate repetitive business tasks.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-[var(--foreground)]">Website Updates</h3>
+                            <p class="text-[var(--muted)] font-medium">Make content, layout, styling, and basic website changes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process -->
+                <div class="scroll-reveal" style="transition-delay: 200ms;">
+                    <h2 class="text-3xl font-bold mb-10 text-[var(--foreground)]">Simple Process</h2>
+                    <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[var(--accent)] before:to-[var(--accent-secondary)] before:opacity-30">
+                        
+                        <div class="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-[var(--accent)] bg-[var(--surface)] text-[var(--accent)] font-bold shadow-[0_0_15px_var(--glow)] z-10 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                1
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6">
+                                <span class="block text-[var(--accent)] font-bold mb-2 tracking-wide uppercase text-sm">Understand</span>
+                                <p class="text-[var(--muted)] font-medium text-sm">Understand the business, website, or automation requirement.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-[var(--accent)] bg-[var(--surface)] text-[var(--accent)] font-bold shadow-[0_0_15px_var(--glow)] z-10 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                2
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6">
+                                <span class="block text-[var(--accent)] font-bold mb-2 tracking-wide uppercase text-sm">Build</span>
+                                <p class="text-[var(--muted)] font-medium text-sm">Create the website or automation workflow.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-start justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-[var(--accent)] bg-[var(--surface)] text-[var(--accent)] font-bold shadow-[0_0_15px_var(--glow)] z-10 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                3
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6">
+                                <span class="block text-[var(--accent)] font-bold mb-2 tracking-wide uppercase text-sm">Improve</span>
+                                <p class="text-[var(--muted)] font-medium text-sm">Test, optimize, and make adjustments.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Freelance Services CTA -->
+        <section class="py-24 px-6 border-y border-[var(--border)] relative overflow-hidden flex items-center justify-center vibe-grid">
+            <!-- Background Glows for CTA -->
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--glow)] to-transparent opacity-10 z-0"></div>
+            
+            <div class="max-w-4xl mx-auto text-center relative z-10 scroll-reveal glass-card p-10 md:p-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight text-[var(--foreground)]">Have a website or automation project in mind?</h2>
+                <p class="text-lg md:text-xl text-[var(--muted)] mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                    Whether you need a new WordPress website, a landing page, or a simple business workflow automated with n8n, let's discuss what you need.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#contact" class="btn-primary w-full sm:w-auto px-10 py-4 rounded-xl font-bold text-lg text-center">
+                        Let's Work Together
+                    </a>
+                    <a href="#work" class="btn-secondary w-full sm:w-auto px-10 py-4 rounded-xl font-bold text-lg text-center">
+                        View My Work
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Contact Section -->
+        <section id="contact" class="py-24 md:py-32 px-6 max-w-5xl mx-auto text-center relative z-10">
+            <div class="scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-[var(--foreground)]">Let's Build Something Useful</h2>
+                <p class="text-lg md:text-xl text-[var(--muted)] mb-16 max-w-2xl mx-auto leading-relaxed font-medium">
+                    Tell me a little about your project, what you need, and what you're trying to accomplish. I'll get back to you to discuss the next steps.
+                </p>
+                
+                <div class="glass-card p-10 md:p-16 mb-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+                        <!-- Email -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-[var(--border)] flex items-center justify-center mb-4 text-[var(--foreground)]">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <span class="block text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-2">Email</span>
+                            <!-- EDIT HERE: Email -->
+                            <a href="mailto:your@email.com" class="text-lg font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors break-all">your@email.com</a>
+                        </div>
+                        <!-- GitHub -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-[var(--border)] flex items-center justify-center mb-4 text-[var(--foreground)]">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="block text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-2">GitHub</span>
+                            <!-- EDIT HERE: GitHub -->
+                            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors break-all">github.com/yourusername</a>
+                        </div>
+                        <!-- LinkedIn -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full bg-[var(--border)] flex items-center justify-center mb-4 text-[var(--foreground)]">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="block text-xs font-bold uppercase tracking-widest text-[var(--muted)] mb-2">LinkedIn</span>
+                            <!-- EDIT HERE: LinkedIn -->
+                            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors break-all">linkedin.com/in/yourusername</a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <!-- EDIT HERE: Email (CTA) -->
+                        <a href="mailto:your@email.com" class="btn-primary inline-block w-full sm:w-auto px-12 py-5 rounded-xl font-bold text-xl text-center">
+                            Start a Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 8. Footer -->
+    <footer class="py-8 px-6 text-center border-t border-[var(--border)] bg-[var(--background)] relative z-20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-[var(--muted)]">
+            <!-- EDIT HERE: Copyright Name -->
+            <p>&copy; 2026 [YOUR NAME]. All rights reserved.</p>
+            <p>WordPress • n8n • Web Development</p>
+        </div>
+    </footer>
+
+    <!-- Modular Vanilla JavaScript -->
+    <script>
+        // 1. Theme Management
+        function initTheme() {
+            const html = document.documentElement;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleBtnMobile = document.getElementById('theme-toggle-mobile');
+            const iconSun = document.getElementById('theme-icon-sun');
+            const iconMoon = document.getElementById('theme-icon-moon');
+            const iconSunMob = document.querySelector('.theme-icon-sun-mobile');
+            const iconMoonMob = document.querySelector('.theme-icon-moon-mobile');
+
+            // Check local storage or system preference
+            let currentTheme = localStorage.getItem('theme');
+            if (!currentTheme) {
+                currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            function applyTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                if (theme === 'dark') {
+                    iconSun.classList.remove('hidden');
+                    iconMoon.classList.add('hidden');
+                    iconSunMob.classList.remove('hidden');
+                    iconMoonMob.classList.add('hidden');
+                } else {
+                    iconSun.classList.add('hidden');
+                    iconMoon.classList.remove('hidden');
+                    iconSunMob.classList.add('hidden');
+                    iconMoonMob.classList.remove('hidden');
+                }
+            }
+
+            // Initial apply
+            applyTheme(currentTheme);
+
+            // Toggle function
+            function toggleTheme() {
+                const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+            }
+
+            themeToggleBtn.addEventListener('click', toggleTheme);
+            themeToggleBtnMobile.addEventListener('click', toggleTheme);
+        }
+
+        // 2. Mobile Navigation
+        function initNavigation() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            
+            btn.addEventListener('click', () => {
+                const isHidden = menu.classList.contains('hidden');
+                menu.classList.toggle('hidden');
+                btn.setAttribute('aria-expanded', !isHidden);
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            document.addEventListener('click', (event) => {
+                const isClickInside = menu.contains(event.target) || btn.contains(event.target) || event.target.closest('#theme-toggle-mobile');
+                if (!isClickInside && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        // 3 & 5. Scroll Reveal (Intersection Observer)
+        function initScrollReveal() {
+            // Respect reduced motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // 4. Active Navigation
+        function initActiveNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            if(sections.length === 0 || navLinks.length === 0) return;
+
+            const observerOptions = {
+                rootMargin: '-20% 0px -80% 0px' 
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // 7. Optional Cursor Glow
+        function initCursorGlow() {
+            // Check for touch devices / reduced motion
+            const isTouch = window.matchMedia('(pointer: coarse)').matches;
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            if (isTouch || prefersReducedMotion) return;
+
+            const cursorGlow = document.getElementById('cursor-glow');
+            if (!cursorGlow) return;
+
+            let isMouseMoving = false;
+            
+            document.addEventListener('mousemove', (e) => {
+                if(!isMouseMoving) {
+                    cursorGlow.style.opacity = '1';
+                    isMouseMoving = true;
+                }
+                // Use transform instead of top/left for better performance
+                cursorGlow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursorGlow.style.opacity = '0';
+                isMouseMoving = false;
+            });
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initNavigation();
+            initScrollReveal();
+            initActiveNavigation();
+            initCursorGlow();
+        });
+    </script>
+</body>
+</html>
